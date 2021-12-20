@@ -20,6 +20,13 @@ class TCPReceiver {
     //! The maximum number of bytes we'll store.
     size_t _capacity;
 
+    bool _syn_flag = 0;
+    bool _fin_flag = 0;
+    
+    //when unintitial, equa zero for ackno special judge
+    size_t _base = 0;  //left border
+    size_t _isn = 0;
+
   public:
     //! \brief Construct a TCP receiver
     //!
@@ -54,7 +61,7 @@ class TCPReceiver {
     size_t unassembled_bytes() const { return _reassembler.unassembled_bytes(); }
 
     //! \brief handle an inbound segment
-    void segment_received(const TCPSegment &seg);
+    bool segment_received(const TCPSegment &seg);
 
     //! \name "Output" interface for the reader
     //!@{
